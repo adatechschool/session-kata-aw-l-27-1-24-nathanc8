@@ -75,6 +75,9 @@ public class Board {
         }
     }
 
+    //Fonctionnalité harvest à ajouter : assez similaire à saw, mais prendrait en paramètre également un joueur, et
+    // incrémenterais son score en fonction du nombre de graines qui ont été récoltées ?
+
 
     public String displayBoard() {
         StringBuilder sb = new StringBuilder();
