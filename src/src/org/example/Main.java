@@ -19,18 +19,14 @@ public class Main {
         board.setSemiBoardPlayer1(semiBoardUp);
         board.setSemiBoardPlayer2(semiBoardDown);
 
-        // Affichage du board
-        System.out.println(board.displayBoard());
-
         //test pour la méthode saw de Board
         semiBoardUp.getCells().getLast().setSeedNb(4);
-        board.saw(semiBoardUp, 6);
+
+        System.out.println(board.displayBoard());
+
+        board.saw(1, 5);
 
         System.out.println("État après semis :");
-//        for (Cell cell : semiBoardUp.getCells()) {
-//            System.out.print("(" + cell.getSeedNb() + ") ");
-//        }
-//        System.out.println();
 
         System.out.println(board.displayBoard());
 

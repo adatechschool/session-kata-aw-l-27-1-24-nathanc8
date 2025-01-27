@@ -34,28 +34,39 @@ public class Board {
         return cells.get((index - 1 + cells.size()) % cells.size());
     }
 
-    public void saw(SemiBoard semiBoard, int cellIndex) {
-        //Récupération des seeds d'une cellule
-        ArrayList<Cell> cells = semiBoard.getCells();
-        Cell currentCell = cells.get(cellIndex);
-        int seedsToDistribute = currentCell.getSeedNb();
+    public void saw(int semiBoardIndex, int cellIndex) {
+        SemiBoard currentSemiBoard = semiBoardIndex == 1 ? semiBoardPlayer1 : semiBoardPlayer2;
+        ArrayList<Cell> currentCells = currentSemiBoard.getCells();
 
-        //Vérification que currentCell n'est pas vide
+        int seedsToDistribute = currentCells.get(cellIndex).getSeedNb();
+        //Controle de la cellule en cours : est-ce qu'il y a des graines dans cette cellule ?
         if (seedsToDistribute == 0) {
             System.out.println("La cellule est vide, rien à semer.");
             return;
         }
 
-        currentCell.setSeedNb(0);
+        currentCells.get(cellIndex).setSeedNb(0);
 
         // Distribution des graines
         int index = cellIndex;
         while (seedsToDistribute > 0) {
-            index = (index + 1) % cells.size();
-            cells.get(index).addSeed();
+            index++;
+            if (index >= currentCells.size()) {
+                if (currentSemiBoard == semiBoardPlayer1) {
+                    currentSemiBoard = semiBoardPlayer2;
+                } else {
+                    currentSemiBoard = semiBoardPlayer1;
+                }
+                currentCells = currentSemiBoard.getCells();
+                index = 0;
+            }
+
+            // Ajouter une graine
+            currentCells.get(index).addSeed();
             seedsToDistribute--;
         }
     }
+
 
     public String displayBoard() {
         StringBuilder sb = new StringBuilder();
