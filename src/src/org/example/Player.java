@@ -40,8 +40,17 @@ public class Player {
         this.score += scoreToAdd;
     }
 
-    public void removeToScore(int scoreToRemove) {
-        this.score -= scoreToRemove;
+    public void removeFromScore(int scoreToRemove) {
+        if (this.score >= scoreToRemove) {
+            this.score -= scoreToRemove;
+        } else {
+            System.out.println("Score insuffisant pour retirer " + scoreToRemove + " points.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Player{id= " + id + ", name ='" + name + "', score=" + score + "}";
     }
 
 
