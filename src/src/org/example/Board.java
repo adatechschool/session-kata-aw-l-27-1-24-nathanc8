@@ -49,21 +49,29 @@ public class Board {
 
         // Distribution des graines
         int index = cellIndex;
+        boolean isClockWise = true;
         while (seedsToDistribute > 0) {
-            index++;
+            if (isClockWise) {
+                index ++;
+            } else {
+                index --;
+            }
             if (index >= currentCells.size()) {
                 if (currentSemiBoard == semiBoardPlayer1) {
                     currentSemiBoard = semiBoardPlayer2;
+                    isClockWise = false;
                 } else {
                     currentSemiBoard = semiBoardPlayer1;
+                    isClockWise = true;
                 }
                 currentCells = currentSemiBoard.getCells();
-                index = 0;
+                index = currentCells.size() - 1;
             }
 
             // Ajouter une graine
             currentCells.get(index).addSeed();
             seedsToDistribute--;
+
         }
     }
 
