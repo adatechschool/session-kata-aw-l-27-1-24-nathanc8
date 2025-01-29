@@ -3,23 +3,23 @@ package org.example;
 import java.util.ArrayList;
 
 public class Board {
-    private SemiBoard semiBoardPlayer1;
-    private SemiBoard semiBoardPlayer2;
+    private SemiBoard semiBoardUp;
+    private SemiBoard semiBoardDown;
 
-    public SemiBoard getSemiBoardPlayer1() {
-        return semiBoardPlayer1;
+    public SemiBoard getSemiBoardUp() {
+        return semiBoardUp;
     }
 
-    public void setSemiBoardPlayer1(SemiBoard semiBoardPlayer1) {
-        this.semiBoardPlayer1 = semiBoardPlayer1;
+    public void setSemiBoardUp(SemiBoard semiBoardUp) {
+        this.semiBoardUp = semiBoardUp;
     }
 
-    public SemiBoard getSemiBoardPlayer2() {
-        return semiBoardPlayer2;
+    public SemiBoard getSemiBoardDown() {
+        return semiBoardDown;
     }
 
-    public void setSemiBoardPlayer2(SemiBoard semiBoardPlayer2) {
-        this.semiBoardPlayer2 = semiBoardPlayer2;
+    public void setSemiBoardDown(SemiBoard semiBoardDown) {
+        this.semiBoardDown = semiBoardDown;
     }
 
     //Trouve la prochaine cellule dans le sens horaire
@@ -35,8 +35,9 @@ public class Board {
     }
 
     public void saw(int semiBoardIndex, int cellIndex) {
-        SemiBoard currentSemiBoard = semiBoardIndex == 1 ? semiBoardPlayer1 : semiBoardPlayer2;
+        SemiBoard currentSemiBoard = semiBoardIndex == 1 ? semiBoardUp : semiBoardDown;
         ArrayList<Cell> currentCells = currentSemiBoard.getCells();
+        boolean isClockWise = !(semiBoardIndex == 1);
 
         int seedsToDistribute = currentCells.get(cellIndex).getSeedNb();
         //Controle de la cellule en cours : est-ce qu'il y a des graines dans cette cellule ?
@@ -49,7 +50,6 @@ public class Board {
 
         // Distribution des graines
         int index = cellIndex;
-        boolean isClockWise = true;
         while (seedsToDistribute > 0) {
             if (isClockWise) {
                 index ++;
@@ -57,12 +57,12 @@ public class Board {
                 index --;
             }
             if (index >= currentCells.size()) {
-                if (currentSemiBoard == semiBoardPlayer1) {
-                    currentSemiBoard = semiBoardPlayer2;
-                    isClockWise = false;
-                } else {
-                    currentSemiBoard = semiBoardPlayer1;
+                if (currentSemiBoard == semiBoardUp) {
+                    currentSemiBoard = semiBoardDown;
                     isClockWise = true;
+                } else {
+                    currentSemiBoard = semiBoardUp;
+                    isClockWise = false;
                 }
                 currentCells = currentSemiBoard.getCells();
                 index = currentCells.size() - 1;
@@ -84,26 +84,26 @@ public class Board {
 
         //SemiBoardUp
         sb.append(" ");
-        for (Cell cell : semiBoardPlayer1.getCells()) {
+        for (Cell cell : semiBoardUp.getCells()) {
             sb.append(" ").append(cell.getLetter()).append(" ");
         }
         sb.append("\n");
 
         sb.append(" ");
-        for (Cell cell : semiBoardPlayer1.getCells()) {
+        for (Cell cell : semiBoardUp.getCells()) {
             sb.append("(").append(cell.getSeedNb()).append(")");
         }
         sb.append("\n");
 
         //SemiBoardDown
         sb.append(" ");
-        for (Cell cell : semiBoardPlayer2.getCells()) {
+        for (Cell cell : semiBoardDown.getCells()) {
             sb.append("(").append(cell.getSeedNb()).append(")");
         }
         sb.append("\n");
 
         sb.append(" ");
-        for (Cell cell : semiBoardPlayer2.getCells()) {
+        for (Cell cell : semiBoardDown.getCells()) {
             sb.append(" ").append(cell.getLetter()).append(" ");
         }
         sb.append("\n");

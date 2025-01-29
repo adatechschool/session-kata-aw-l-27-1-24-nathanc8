@@ -1,7 +1,12 @@
 package org.example;
 
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Player {
 
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
     private int score;
     private String name;
     private int id;
@@ -41,16 +46,27 @@ public class Player {
     }
 
     public void removeFromScore(int scoreToRemove) {
-        if (this.score >= scoreToRemove) {
+        try {
+            if (this.score < scoreToRemove) {
+                throw new ScoreInsuffisantException("Score insuffisant pour retirer " + scoreToRemove + " points.");
+            }
             this.score -= scoreToRemove;
-        } else {
-            System.out.println("Score insuffisant pour retirer " + scoreToRemove + " points.");
+        } catch (ScoreInsuffisantException e) {
+            logger.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public String toString() {
-        return "Player{id= " + id + ", name ='" + name + "', score=" + score + "}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player : {\n id = ")
+                .append(id)
+                .append(",\n name = '")
+                .append(name)
+                .append("',\n score = '")
+                .append(score)
+                .append("'\n}");
+        return sb.toString();
     }
 
 
